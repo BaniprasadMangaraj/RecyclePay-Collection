@@ -1,0 +1,512 @@
+{
+	"info": {
+		"_postman_id": "399ff48d-af04-45ea-a249-d375fc72384c",
+		"name": "Customer Routes",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25116238"
+	},
+	"item": [
+		{
+			"name": "Sent otp to Customer and agent's register mobile number",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.log(\"OTP was sent to the customer for registration and data retrieval for the customer\", pm.info.requestName);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Test Case - 1......Check The Response Code 200\r",
+							"pm.test(\"Check For Response Code\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Test Case - 2......String Match In Response Body\r",
+							"tests[\"String Match \"]=responseBody.has(\"Shidhartha\");\r",
+							"\r",
+							"//Response Body Matches Contains String\r",
+							"pm.test(\"Body matches string mobile,baniprasadmangaraj2,refCodeUser,createdAt,refCodeUser\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"mobile\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"baniprasadmangaraj2@gmail.com\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"refCodeUser\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"createdAt\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"refCodeUser\");\r",
+							"});\r",
+							"\r",
+							"//Response Body : JSON Value Check\r",
+							"pm.test(\"expect mobile data[7008463071]\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.customerDetails.mobile).to.eql(\"7008463071\");\r",
+							"});\r",
+							"\r",
+							"//Response Headers: Content-Type Header Check\r",
+							"pm.test(\"Content-Type is present\", function () {\r",
+							"    pm.response.to.have.header(\"Date\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"//Successful POST request\r",
+							"pm.test(\"Successful POST request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+							"});\r",
+							"\r",
+							"//Status code : Code name has string\r",
+							"pm.test(\"Status code name has string\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"//Print And Get Variables\r",
+							"console.log(pm.variables.get(\"url\"));\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"mobile\": \"7008463071\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/customers/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"customers",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "wp auth token set in corresponding active customer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Fixed SyntaxError by correcting the function keyword and adding closing parenthesis\r",
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Using Path Finder check Path\", function() {\r",
+							"    console.log(jsonData.isSuccess);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Count and log ids\", function(){\r",
+							"    console.log(jsonData.isSuccess);\r",
+							"\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"mobile\": \"7008463071\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/customers/wpauth",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"customers",
+						"wpauth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Customers by mobile",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.log(\"Get clients by using mobile number \", pm.info.requestName);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var schema = {\r",
+							"    \"$schema\": \"https://json-schema.org/draft/2019-09/schema\",\r",
+							"    \"$id\": \"http://example.com/example.json\",\r",
+							"    \"type\": \"array\",\r",
+							"    \"default\": [],\r",
+							"    \"title\": \"Root Schema\",\r",
+							"    \"items\": {\r",
+							"        \"type\": \"object\",\r",
+							"        \"default\": {},\r",
+							"        \"title\": \"A Schema\",\r",
+							"        \"required\": [\r",
+							"            \"_id\",\r",
+							"            \"name\",\r",
+							"            \"mobile\",\r",
+							"            \"email\",\r",
+							"            \"isActive\",\r",
+							"            \"isDelete\",\r",
+							"            \"isComplete\",\r",
+							"            \"refCode\",\r",
+							"            \"useRefCode\",\r",
+							"            \"orderCount\",\r",
+							"            \"refCodeUser\",\r",
+							"            \"createdAt\",\r",
+							"            \"updatedAt\",\r",
+							"            \"__v\",\r",
+							"            \"ci\",\r",
+							"            \"token\",\r",
+							"            \"PAN\"\r",
+							"        ],\r",
+							"        \"properties\": {\r",
+							"            \"_id\": {\r",
+							"                \"type\": \"string\",\r",
+							"                \"default\": \"\",\r",
+							"                \"title\": \"The _id Schema\",\r",
+							"                \"examples\": [\r",
+							"                    \"66b5f490477a04afb0c44273\"\r",
+							"                ]\r",
+							"            },\r",
+							"            \"name\": {\r",
+							"                \"type\": \"string\",\r",
+							"                \"default\": \"\",\r",
+							"                \"title\": \"The name Schema\",\r",
+							"                \"examples\": [\r",
+							"                    \"ommmmmy\"\r",
+							"                ]\r",
+							"            },\r",
+							"            \"mobile\": {\r",
+							"                \"type\": \"string\",\r",
+							"                \"default\": \"\",\r",
+							"                \"title\": \"The mobile Schema\",\r",
+							"                \"examples\": [\r",
+							"                    \"7008420169\"\r",
+							"                ]\r",
+							"            },\r",
+							"            \"email\": {\r",
+							"                \"type\": \"string\",\r",
+							"                \"default\": \"\",\r",
+							"                \"title\": \"The email Schema\",\r",
+							"                \"examples\": [\r",
+							"                    \"sadangiomprakash@gmail.com\"\r",
+							"                ]\r",
+							"            },\r",
+							"            \"isActive\": {\r",
+							"                \"type\": \"boolean\",\r",
+							"                \"default\": false,\r",
+							"                \"title\": \"The isActive Schema\",\r",
+							"                \"examples\": [\r",
+							"                    true\r",
+							"                ]\r",
+							"            },\r",
+							"            \"isDelete\": {\r",
+							"                \"type\": \"boolean\",\r",
+							"                \"default\": false,\r",
+							"                \"title\": \"The isDelete Schema\",\r",
+							"                \"examples\": [\r",
+							"                    false\r",
+							"                ]\r",
+							"            },\r",
+							"            \"isComplete\": {\r",
+							"                \"type\": \"boolean\",\r",
+							"                \"default\": false,\r",
+							"                \"title\": \"The isComplete Schema\",\r",
+							"                \"examples\": [\r",
+							"                    true\r",
+							"                ]\r",
+							"            },\r",
+							"            \"refCode\": {\r",
+							"                \"type\": \"string\",\r",
+							"                \"default\": \"\",\r",
+							"                \"title\": \"The refCode Schema\",\r",
+							"                \"examples\": [\r",
+							"                    \"OMMM385695\"\r",
+							"                ]\r",
+							"            },\r",
+							"            \"useRefCode\": {\r",
+							"                \"type\": \"string\",\r",
+							"                \"default\": \"\",\r",
+							"                \"title\": \"The useRefCode Schema\",\r",
+							"                \"examples\": [\r",
+							"                    \"\"\r",
+							"                ]\r",
+							"            },\r",
+							"            \"orderCount\": {\r",
+							"                \"type\": \"integer\",\r",
+							"                \"default\": 0,\r",
+							"                \"title\": \"The orderCount Schema\",\r",
+							"                \"examples\": [\r",
+							"                    0\r",
+							"                ]\r",
+							"            },\r",
+							"            \"refCodeUser\": {\r",
+							"                \"type\": \"array\",\r",
+							"                \"default\": [],\r",
+							"                \"title\": \"The refCodeUser Schema\",\r",
+							"                \"items\": {},\r",
+							"                \"examples\": [\r",
+							"                    []\r",
+							"                ]\r",
+							"            },\r",
+							"            \"createdAt\": {\r",
+							"                \"type\": \"string\",\r",
+							"                \"default\": \"\",\r",
+							"                \"title\": \"The createdAt Schema\",\r",
+							"                \"examples\": [\r",
+							"                    \"2024-08-09T10:50:56.627Z\"\r",
+							"                ]\r",
+							"            },\r",
+							"            \"updatedAt\": {\r",
+							"                \"type\": \"string\",\r",
+							"                \"default\": \"\",\r",
+							"                \"title\": \"The updatedAt Schema\",\r",
+							"                \"examples\": [\r",
+							"                    \"2024-08-14T06:32:43.502Z\"\r",
+							"                ]\r",
+							"            },\r",
+							"            \"__v\": {\r",
+							"                \"type\": \"integer\",\r",
+							"                \"default\": 0,\r",
+							"                \"title\": \"The __v Schema\",\r",
+							"                \"examples\": [\r",
+							"                    0\r",
+							"                ]\r",
+							"            },\r",
+							"            \"ci\": {\r",
+							"                \"type\": \"string\",\r",
+							"                \"default\": \"\",\r",
+							"                \"title\": \"The ci Schema\",\r",
+							"                \"examples\": [\r",
+							"                    \"cont_Oim38JlZke9MK2\"\r",
+							"                ]\r",
+							"            },\r",
+							"            \"token\": {\r",
+							"                \"type\": \"string\",\r",
+							"                \"default\": \"\",\r",
+							"                \"title\": \"The token Schema\",\r",
+							"                \"examples\": [\r",
+							"                    \"cTqqXcV9R4SIrlLJfiBqbB:APA91bFpNANqgHpbdvWTocTjXO5Y03pb2CjtLSonxLIPT1uCMQisTbfJ0NkVDcPzQUkDwFdObP_OBbMFmYvzSyUpFzHkb4dQ6LC_S7xhRMuaUH5DyMKwpyY_wpZjMWUyr2kZVgaYYofH\"\r",
+							"                ]\r",
+							"            },\r",
+							"            \"PAN\": {\r",
+							"                \"type\": \"string\",\r",
+							"                \"default\": \"\",\r",
+							"                \"title\": \"The PAN Schema\",\r",
+							"                \"examples\": [\r",
+							"                    \"NSYPS5282R\"\r",
+							"                ]\r",
+							"            }\r",
+							"        },\r",
+							"        \"examples\": [{\r",
+							"            \"_id\": \"66b5f490477a04afb0c44273\",\r",
+							"            \"name\": \"ommmmmy\",\r",
+							"            \"mobile\": \"7008420169\",\r",
+							"            \"email\": \"sadangiomprakash@gmail.com\",\r",
+							"            \"isActive\": true,\r",
+							"            \"isDelete\": false,\r",
+							"            \"isComplete\": true,\r",
+							"            \"refCode\": \"OMMM385695\",\r",
+							"            \"useRefCode\": \"\",\r",
+							"            \"orderCount\": 0,\r",
+							"            \"refCodeUser\": [],\r",
+							"            \"createdAt\": \"2024-08-09T10:50:56.627Z\",\r",
+							"            \"updatedAt\": \"2024-08-14T06:32:43.502Z\",\r",
+							"            \"__v\": 0,\r",
+							"            \"ci\": \"cont_Oim38JlZke9MK2\",\r",
+							"            \"token\": \"cTqqXcV9R4SIrlLJfiBqbB:APA91bFpNANqgHpbdvWTocTjXO5Y03pb2CjtLSonxLIPT1uCMQisTbfJ0NkVDcPzQUkDwFdObP_OBbMFmYvzSyUpFzHkb4dQ6LC_S7xhRMuaUH5DyMKwpyY_wpZjMWUyr2kZVgaYYofH\",\r",
+							"            \"PAN\": \"NSYPS5282R\"\r",
+							"        }]\r",
+							"    },\r",
+							"    \"examples\": [\r",
+							"        [{\r",
+							"            \"_id\": \"66b5f490477a04afb0c44273\",\r",
+							"            \"name\": \"ommmmmy\",\r",
+							"            \"mobile\": \"7008420169\",\r",
+							"            \"email\": \"sadangiomprakash@gmail.com\",\r",
+							"            \"isActive\": true,\r",
+							"            \"isDelete\": false,\r",
+							"            \"isComplete\": true,\r",
+							"            \"refCode\": \"OMMM385695\",\r",
+							"            \"useRefCode\": \"\",\r",
+							"            \"orderCount\": 0,\r",
+							"            \"refCodeUser\": [],\r",
+							"            \"createdAt\": \"2024-08-09T10:50:56.627Z\",\r",
+							"            \"updatedAt\": \"2024-08-14T06:32:43.502Z\",\r",
+							"            \"__v\": 0,\r",
+							"            \"ci\": \"cont_Oim38JlZke9MK2\",\r",
+							"            \"token\": \"cTqqXcV9R4SIrlLJfiBqbB:APA91bFpNANqgHpbdvWTocTjXO5Y03pb2CjtLSonxLIPT1uCMQisTbfJ0NkVDcPzQUkDwFdObP_OBbMFmYvzSyUpFzHkb4dQ6LC_S7xhRMuaUH5DyMKwpyY_wpZjMWUyr2kZVgaYYofH\",\r",
+							"            \"PAN\": \"NSYPS5282R\"\r",
+							"        }]\r",
+							"    ]\r",
+							"\r",
+							"};\r",
+							"\r",
+							"// Extract the actual JSON response\r",
+							"var actualJsondata = pm.response.json();\r",
+							"\r",
+							"// Validate the schema and log errors if any\r",
+							"pm.test('Schema is valid', function () {\r",
+							"    pm.expect(tv4.validate(actualJsondata,schema)).to.be.true;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "650bdeb49d0d4331b0da71b3",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/customers/7008420169",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"customers",
+						"7008420169"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all Customer's Details",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.log(\"Get All customer Details\", pm.info.requestName);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Check Status Code for \r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//ResponseBody Contains String\r",
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"name\");\r",
+							"});\r",
+							"\r",
+							"//ResponseBody JSON Value Check\r",
+							"/*pm.test(\"expected param data[1]\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[1].name).to.eql(\"Param\");\r",
+							"});*/\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "650bdeb49d0d4331b0da71b3",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/customers/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"customers",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
