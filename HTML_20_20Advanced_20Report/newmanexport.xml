@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Customer Routes" tests="4" time="0.733">
+  <testsuite name="Sent otp to Customer and agent's register mobile number" id="9066eec7-4ab3-4510-9727-02554427aad5" timestamp="2024-08-21T07:12:34.604Z" tests="7" failures="0" errors="0" time="0.581">
+    <testcase name="Check For Response Code" time="0.581" classname="CustomerRoutes"/>
+    <testcase name="Body matches string mobile,baniprasadmangaraj2,refCodeUser,createdAt,refCodeUser" time="0.581" classname="CustomerRoutes"/>
+    <testcase name="expect mobile data[7008463071]" time="0.581" classname="CustomerRoutes"/>
+    <testcase name="Content-Type is present" time="0.581" classname="CustomerRoutes"/>
+    <testcase name="Successful POST request" time="0.581" classname="CustomerRoutes"/>
+    <testcase name="Status code name has string" time="0.581" classname="CustomerRoutes"/>
+    <testcase name="String Match " time="0.581" classname="CustomerRoutes"/>
+  </testsuite>
+  <testsuite name="wp auth token set in corresponding active customer" id="6de71313-c764-41d2-8eb1-f8ff0ea1375c" timestamp="2024-08-21T07:12:34.604Z" tests="2" failures="0" errors="0" time="0.052">
+    <testcase name="Using Path Finder check Path" time="0.052" classname="CustomerRoutes"/>
+    <testcase name="Count and log ids" time="0.052" classname="CustomerRoutes"/>
+  </testsuite>
+  <testsuite name="Get Customers by mobile" id="6f482e5e-e4c1-4fe3-bbac-b4b28e472eed" timestamp="2024-08-21T07:12:34.604Z" tests="1" failures="0" errors="0" time="0.052">
+    <testcase name="Schema is valid" time="0.052" classname="CustomerRoutes"/>
+  </testsuite>
+  <testsuite name="Get all Customer's Details" id="0607cbdc-ba59-4d64-a7f7-cf5e46d1f3cf" timestamp="2024-08-21T07:12:34.604Z" tests="2" failures="0" errors="0" time="0.048">
+    <testcase name="Status code is 200" time="0.048" classname="CustomerRoutes"/>
+    <testcase name="Body matches string" time="0.048" classname="CustomerRoutes"/>
+  </testsuite>
+</testsuites>
